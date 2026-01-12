@@ -241,4 +241,109 @@
             "If you could retire tomorrow, how would you fill your days?",
             "What is a skill you use at work that I probably don't know about?",
             "Who is your favorite coworker and why?",
-            "How do
+            "How do you handle stress at work?",
+            "Do you believe in aliens?",
+            "Do you believe in ghosts?",
+            "What is your favorite smell?",
+            "What is the worst haircut you ever had?",
+            "What is the best concert you have ever been to?",
+            "What is a song you know every word to?",
+            "What is your 'guilty pleasure' TV show?",
+            "If you could be an Olympic athlete, what sport would you play?",
+            "What is your favorite season and why?",
+            "What is your favorite ice cream flavor?",
+            "What is the strangest dream you’ve ever had?",
+            "If you could change your first name, what would you change it to?",
+            "What is something you are terrible at but enjoy doing?",
+            "What is your favorite board game?",
+            "What is the longest you’ve ever gone without sleep?",
+            "Have you ever broken a bone?",
+            "What is your favorite quote?",
+            "If you could design your dream house, what is one must-have feature?",
+            "What is the most courageous thing you have ever done?",
+            "What is the kindest thing a stranger has ever done for you?",
+            "If you could speak any language fluently, which one would it be?",
+            "What is your favorite vegetable?",
+            "What is your least favorite vegetable?",
+            "What is your favorite way to exercise?",
+            "If you could meet any celebrity, who would it be?",
+            "What is the best book you have read in the last year?",
+            "What is your favorite thing to do on a rainy day?",
+            "If you were a color, which one would you be?",
+            "What is the most beautiful place you have ever seen in person?",
+            "If you could go back to school, what would you study?",
+            "What is your favorite sound?",
+            "What is your least favorite sound?",
+            "Do you think technology has made life better or worse?",
+            "What is a movie you can watch over and over again?",
+            "What is the best piece of advice you would give your younger self about love?",
+            "What is one thing you want to accomplish in the next month?",
+            "What is one thing you want to accomplish in the next year?",
+            "What is your favorite thing about yourself?",
+            "What is your favorite thing about our life together?"
+        ];
+
+        // --- APP LOGIC ---
+
+        function getDayOfYear() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            return Math.floor(diff / oneDay);
+        }
+
+        function setQuestion() {
+            const dayIndex = getDayOfYear();
+            // Use modulo to cycle through the array
+            const questionIndex = dayIndex % questions.length;
+            
+            // Set question
+            document.getElementById('question-text').innerText = questions[questionIndex];
+            
+            // Set date display
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date-display').innerText = new Date().toLocaleDateString('en-US', options);
+        }
+
+        function newRandomQuestion() {
+            const textElement = document.getElementById('question-text');
+            
+            // Fade out
+            textElement.classList.remove('fade-in');
+            textElement.classList.add('fade-out');
+
+            setTimeout(() => {
+                const randomIndex = Math.floor(Math.random() * questions.length);
+                textElement.innerText = questions[randomIndex];
+                
+                // Fade in
+                textElement.classList.remove('fade-out');
+                textElement.classList.add('fade-in');
+            }, 300);
+        }
+
+        function copyText() {
+            const text = document.getElementById('question-text').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                // Toggle icons
+                document.getElementById('icon-copy').classList.add('hidden');
+                document.getElementById('icon-check').classList.remove('hidden');
+                document.getElementById('copy-text').innerText = "Copied!";
+                document.getElementById('copy-text').classList.add('text-green-600');
+
+                setTimeout(() => {
+                    document.getElementById('icon-copy').classList.remove('hidden');
+                    document.getElementById('icon-check').classList.add('hidden');
+                    document.getElementById('copy-text').innerText = "Copy";
+                    document.getElementById('copy-text').classList.remove('text-green-600');
+                }, 2000);
+            });
+        }
+
+        // Initialize on load
+        setQuestion();
+
+    </script>
+</body>
+</html>
